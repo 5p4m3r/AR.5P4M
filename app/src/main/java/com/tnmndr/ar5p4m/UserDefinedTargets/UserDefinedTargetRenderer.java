@@ -152,7 +152,7 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
         Configuration config = mActivity.getResources().getConfiguration();
 
         mActivity.getScreenOrientation();
-        //mActivity.Rotation();
+        mActivity.Rotation();
 
 
 
