@@ -66,19 +66,19 @@ public class StartAnimation extends Activity {
             finish();
 
         }else{
-            new CountDownTimer(2000, 1000) {
-                public void onFinish() {
-                    // When timer is finished
-                    // Execute your code here
-                    Intent intent = new Intent(StartAnimation.this, CameraActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+           //new CountDownTimer(2000, 1000) {
+           //    public void onFinish() {
+           //        // When timer is finished
+           //        // Execute your code here
+           //        Intent intent = new Intent(StartAnimation.this, CameraActivity.class);
+           //        startActivity(intent);
+           //        finish();
+           //    }
 
-                public void onTick(long millisUntilFinished) {
-                    // millisUntilFinished    The amount of time until finished.
-                }
-            }.start();
+           //    public void onTick(long millisUntilFinished) {
+           //        // millisUntilFinished    The amount of time until finished.
+           //    }
+           //}.start();
         }
 
     }
