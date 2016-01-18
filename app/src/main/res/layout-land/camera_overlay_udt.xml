@@ -38,7 +38,7 @@
             android:id="@+id/control"
             android:layout_width="112dp"
             android:layout_height="fill_parent"
-            android:background="@color/pink">
+            android:background="@drawable/backgroundtile">
 
             <ImageButton
                 android:id="@+id/camera_button"

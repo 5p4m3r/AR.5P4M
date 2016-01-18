@@ -38,9 +38,12 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.qualcomm.ar.pl.DebugLog;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.DataSet;
 import com.qualcomm.vuforia.ImageTargetBuilder;
@@ -111,13 +114,6 @@ public class UserDefinedTargets extends Activity implements
     boolean mIsDroidDevice = false;
 
     public int mRotation;
-    public int mMetrics;
-   // //screenshot
-   //private boolean TakeScreenShot = false;
-   //public void saveScreenShot() {
-   //  TakeScreenShot = true;
-   //}
-   ////screenshot
 
 
 
@@ -132,11 +128,10 @@ public class UserDefinedTargets extends Activity implements
         
         vuforiaAppSession = new SampleApplicationSession(this);
         
-        //vuforiaAppSession
-        //    .initAR(this, ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
         mRotation=getWindowManager().getDefaultDisplay().getRotation();
         vuforiaAppSession
-                .initAR(this, ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                .initAR(this, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
@@ -148,6 +143,22 @@ public class UserDefinedTargets extends Activity implements
                 "droid");
 
 
+
+
+    }
+    public void MediaScan() {
+
+        String[] paths = {Environment.getExternalStorageDirectory() + "/DCIM/AR_5P4M"};
+        String[] mimeTypes = {"image/png"};
+        MediaScannerConnection.scanFile(getApplicationContext(),
+                paths,
+                mimeTypes,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        // scanned path and uri
+                        Log.d(LOGTAG, "succesfully scanned media");
+                    }
+                });
 
     }
 
@@ -161,22 +172,23 @@ public class UserDefinedTargets extends Activity implements
 
 
     }
-    public void MediaScan() {
+   public void onExClick(View v)
+   {
 
-        String[] paths = {"file://"+ Environment.getExternalStorageDirectory()};
-        String[] mimeTypes = {"image/png"};
-        MediaScannerConnection.scanFile(getApplicationContext(),
-                paths,
-                mimeTypes,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-                        // scanned path and uri
-                        Log.d(LOGTAG, "succesfully scanned media");
-                    }
-                });
+       if (mExtendedTracking = false)
+   {
+       mExtendedTracking = true;
+      //DebugLog.LOGD("Failed to start extended tracking on chips target");
+       Toast.makeText(UserDefinedTargets.this, "Extended Tracking", Toast.LENGTH_SHORT).show();
+   }
 
-    }
-    
+
+
+
+   }
+
+
+
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
@@ -305,10 +317,12 @@ public class UserDefinedTargets extends Activity implements
         Log.d(LOGTAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
         vuforiaAppSession.onConfigurationChanged();
+        getScreenOrientation();
+        //rotation();
 
 
         vuforiaAppSession.onSurfaceCreated();
-        getScreenOrientation();
+
 
 
         // Removes the current layout and inflates a proper layout
@@ -324,26 +338,46 @@ public class UserDefinedTargets extends Activity implements
         addOverlayView(false);
     }
 
-    public float yRot;
-    public void Rotation() {
+       public String YROTATION;
+
+    public float y;
+    //public float yRot;
+
+
+    public void rotation() {
         int rotation = mRotation;
         //int yRot;
+
+
+
         if (rotation == Surface.ROTATION_0 ){
-            yRot = 0;
+            //yRot = 0;
+            //YROTATION = "Portrait";
+            y=1;
             Log.d(LOGTAG, "Portrait1");
+            return;
         }
         else if (rotation == Surface.ROTATION_90 ) {
-            yRot = 90;
+            //yRot = 90;
+           // YROTATION = "Landscape";
+            y=2;
             Log.d(LOGTAG, "Landscape1");
+            return;
         }
         if (rotation == Surface.ROTATION_180){
-            yRot = 180 ;
+           // yRot = 180 ;
+            //YROTATION = "Reverse_Portrait";
+            y=3;
             Log.d(LOGTAG, "Reverse_Portrait1");
         }
         else if (rotation == Surface.ROTATION_270) {
-            yRot = 270;
+           // yRot = 270;
+           // YROTATION = "Reverse_Landscape";
+            y=4;
             Log.d(LOGTAG, "Reverse_Landscape1");
         }
+
+        return;
     }
 
 

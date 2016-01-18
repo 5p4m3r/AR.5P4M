@@ -32,7 +32,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@color/control_background"
+        android:background="@drawable/backgroundtile"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/texture"

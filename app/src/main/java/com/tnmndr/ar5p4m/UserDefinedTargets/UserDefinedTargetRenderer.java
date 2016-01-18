@@ -24,9 +24,12 @@ import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.media.MediaScannerConnection;
@@ -101,13 +104,13 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
     private UserDefinedTargets mActivity;
 
 
+
    ////screenshot
   private int mViewWidth = 0; // screenshot
   private int mViewHeight = 0;  // screenshot
 
     private boolean TakeScreenShot = false;//screenshot
-    public int mRotation2;
-//public float yRot;
+
 
     public UserDefinedTargetRenderer(UserDefinedTargets activity,
         SampleApplicationSession session)
@@ -115,9 +118,40 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
         mActivity = activity;
         vuforiaAppSession = session;
 
+
     }
-    
-    
+    public float yRot;
+   // public int y;
+   //  public String YROTATION;
+    public void rotationChanging() {
+
+        if (y == 1){
+           // if (YROTATION == "Portrait"){
+            yRot = 0;
+
+            Log.d(LOGTAG, "Portrait2");
+        }
+        else if (y == 1)
+                //( YROTATION == "Landscape")
+                 {
+            yRot = 90;
+
+            Log.d(LOGTAG, "Landscape2");
+        }
+        if (y==3){
+            yRot = 180 ;
+
+            Log.d(LOGTAG, "Reverse_Portrait2");
+        }
+        else if (y==4) {
+            yRot = 270;
+
+            Log.d(LOGTAG, "Reverse_Landscape2");
+        }
+        return;
+        }
+
+
     // Called when the surface is created or recreated.
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -125,6 +159,9 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
         // Call function to initialize rendering:
        //DisplayMetrics dm = new DisplayMetrics();
        //mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //mActivity.rotation();
+        //rotationChanging();
+
         initRendering();
 
         
@@ -135,7 +172,7 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
 
 
 
-    //public float yRot;
+
 
     // Called when the surface changed size.
     @Override
@@ -151,9 +188,9 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
 
         Configuration config = mActivity.getResources().getConfiguration();
 
-        mActivity.getScreenOrientation();
-        mActivity.Rotation();
-
+        //mActivity.getScreenOrientation();
+        mActivity.rotation();
+        rotationChanging();
 
 
 
@@ -184,7 +221,7 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
 
            TakeScreenShot = false;
        }
-    }
+     }
 
 
     public void renderFrame()
@@ -222,9 +259,8 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
             
             float[] modelViewProjection = new float[16];
             Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, kObjectScale);
-            Matrix.rotateM(modelViewMatrix, 0, yRot,0, 0, 1);
-
-
+            //Matrix.rotateM(modelViewMatrix, 0, yRot,0, 0, 1);
+            Matrix.rotateM(modelViewMatrix, 0, 270,0, 0, 1);
 
             Matrix.scaleM(modelViewMatrix, 0, kObjectScale, kObjectScale,
                 kObjectScale);
@@ -318,7 +354,10 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
         
     }
 
-    public void saveScreenShot() {             //screenshot
+
+    public void saveScreenShot() {
+
+
         TakeScreenShot = true;
         //screenshot
     }
@@ -327,6 +366,7 @@ public class UserDefinedTargetRenderer extends UserDefinedTargets implements GLS
     //for screenshot
     private void saveScreenShot(int x, int y, int w, int h, String filename, GL10 gl) {
         Bitmap bmp = grabPixels(x, y, w, h, gl);
+
         try {
             File directory = new File (Environment.getExternalStorageDirectory() + "/DCIM/AR_5P4M");
             directory.mkdirs();

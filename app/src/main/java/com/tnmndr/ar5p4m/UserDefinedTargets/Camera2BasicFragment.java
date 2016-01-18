@@ -939,9 +939,9 @@ public class Camera2BasicFragment extends Fragment
 
 
 
-               break;
+           break;
 
-           }
+        }
            case R.id.info: {
                Activity activity = getActivity();
                if (null != activity) {
