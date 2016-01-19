@@ -15,11 +15,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,10 +41,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.qualcomm.QCAR.QCAR;
 import com.qualcomm.ar.pl.DebugLog;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.DataSet;
@@ -116,7 +121,9 @@ public class UserDefinedTargets extends Activity implements
     public int mRotation;
 
 
-
+    //FLash
+    ToggleButton toggleButton;
+    Camera camera;
     
     // Called when the activity first starts or needs to be recreated after
     // resuming the application or a configuration change.
@@ -125,6 +132,39 @@ public class UserDefinedTargets extends Activity implements
     {
         Log.d(LOGTAG, "onCreate");
         super.onCreate(savedInstanceState);
+
+
+        //FLASH
+        setContentView(R.layout.camera_overlay_udt);
+        toggleButton = (ToggleButton) findViewById(R.id.flashlightSwitch);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+
+                    Log.d(LOGTAG, "toggle on");
+                    //ToDo something
+                    camera = Camera.open();
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
+                    //toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.flash_on));
+
+                } else {
+                    Log.d(LOGTAG, "toggle off");
+                    //ToDo something
+                    camera = Camera.open();
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    camera.stopPreview();
+                    camera.release();
+                    // toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.flash_off));
+
+                }
+            }
+        });//flashend
         
         vuforiaAppSession = new SampleApplicationSession(this);
         
@@ -144,8 +184,13 @@ public class UserDefinedTargets extends Activity implements
 
 
 
-
     }
+
+
+
+
+
+
     public void MediaScan() {
 
         String[] paths = {Environment.getExternalStorageDirectory() + "/DCIM/AR_5P4M"};
@@ -162,6 +207,8 @@ public class UserDefinedTargets extends Activity implements
 
     }
 
+
+
     public void onPhotoClick(View v)
     {
 
@@ -172,20 +219,20 @@ public class UserDefinedTargets extends Activity implements
 
 
     }
-   public void onExClick(View v)
-   {
+  //public void onExClick(View v)
+  //{
 
-       if (mExtendedTracking = false)
-   {
-       mExtendedTracking = true;
-      //DebugLog.LOGD("Failed to start extended tracking on chips target");
-       Toast.makeText(UserDefinedTargets.this, "Extended Tracking", Toast.LENGTH_SHORT).show();
-   }
-
-
+  //    if (mExtendedTracking = false)
+  //{
+  //    mExtendedTracking = true;
+  //   //DebugLog.LOGD("Failed to start extended tracking on chips target");
+  //    Toast.makeText(UserDefinedTargets.this, "Extended Tracking", Toast.LENGTH_SHORT).show();
+  //}
 
 
-   }
+
+
+  //}
 
 
 
@@ -277,13 +324,15 @@ public class UserDefinedTargets extends Activity implements
             mGlView.onPause();
         }
         
-        try
-        {
+        try {
             vuforiaAppSession.pauseAR();
         } catch (SampleApplicationException e)
         {
             Log.e(LOGTAG, e.getString());
         }
+
+
+
     }
 
     
@@ -301,7 +350,8 @@ public class UserDefinedTargets extends Activity implements
         {
             Log.e(LOGTAG, e.getString());
         }
-        
+
+
         // Unload texture:
         mTextures.clear();
         mTextures = null;

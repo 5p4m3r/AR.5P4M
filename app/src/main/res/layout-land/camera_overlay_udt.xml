@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/camera_overlay_layout"
+    android:id="@+id/camera_overlay_layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -36,43 +36,80 @@
 
         <FrameLayout
             android:id="@+id/control"
-            android:layout_width="112dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:background="@drawable/backgroundtile">
+            android:background="@color/transparent"
+            android:layout_marginRight="0dp">
+
+                           <ImageButton
+                    android:id="@+id/camera_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/transparent"
+                    android:contentDescription="@string/content_desc_camera_button"
+                    android:onClick="onCameraClick"
+                    android:padding="10dp"
+                    android:src="@drawable/spam2"
+                    android:layout_marginTop="10dp"
+                    android:layout_column="8" />
+
+
+
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/save2"
+                    android:onClick="onPhotoClick"
+                    android:layout_gravity="center_horizontal|center"
+                    android:id="@+id/tex_button"
+                    android:background="@color/transparent"
+                    android:padding="10dp"
+                    android:layout_column="8" />
 
             <ImageButton
-                android:id="@+id/camera_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
+                android:id="@+id/info"
                 android:background="@color/transparent"
-                android:contentDescription="@string/content_desc_camera_button"
-                android:onClick="onCameraClick"
-                android:padding="10dp"
-                android:src="@drawable/camera_button_background" />
+                android:layout_column="8"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:src="@drawable/info_white" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="photo"
-                android:onClick="onPhotoClick"
-                android:layout_gravity="center|top"
-                android:id="@+id/tex_button"
-                 />
+                android:id="@+id/flashlightSwitch"
+                android:layout_column="7"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="right|bottom"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/flash_switch"
+
+                />
+
         </FrameLayout>
 
 
     </FrameLayout>
 
-    <!--LinearLayout
-        android:id="@+id/texture2"
+    <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/transparent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10%">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/bottom_bar"
+        android:id="@+id/camera_overlay_layout">
 
-    </LinearLayout-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"></FrameLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

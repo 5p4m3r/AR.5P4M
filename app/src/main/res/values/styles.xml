@@ -19,4 +19,6 @@
   <style name="SampleAppsTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:windowNoTitle">true</item>
     </style>
+
+
 </resources>

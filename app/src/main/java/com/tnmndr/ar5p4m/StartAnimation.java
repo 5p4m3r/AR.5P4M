@@ -6,12 +6,14 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.tnmndr.ar5p4m.UserDefinedTargets.CameraActivity;
+import com.tnmndr.ar5p4m.UserDefinedTargets.UserDefinedTargets;
 
 /**
  * Created by 5p4m3r on 18.01.2016.
@@ -27,6 +29,20 @@ public class StartAnimation extends Activity {
        //ImageView rocketImage = (ImageView) findViewById(R.id.animation_img);
        //rocketImage.setBackgroundResource(R.drawable.a0002);
        //animation = (AnimationDrawable) rocketImage.getBackground();
+
+
+        // Generates a Handler to launch the About Screen
+        // after 2 seconds
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                // Starts the About Screen Activity
+                startActivity(new Intent(StartAnimation.this,
+                        CameraActivity.class));
+            }
+        }, 4000L);
     }
 
    //public boolean onWindowFocusChanged() {
